@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/caicloud/nirvana/rest"
 	"os"
 
 	"github.com/caicloud/nirvana"
@@ -14,11 +15,15 @@ import (
 
 var (
 	httpPort uint16
+	cacheEndPoint string
+	cachePort uint16
 	version  bool
 )
 
 func init() {
 	pflag.Uint16VarP(&httpPort, "port", "p", 8080, "the HTTP port used by the server")
+	pflag.StringVarP(&cacheEndPoint, "cache-endpoint", "cep", "127.0.0.1", "cache client endpoint")
+	pflag.Uint16VarP(&cachePort, "cache-port", "cp", 8081, "cache port")
 	pflag.BoolVarP(&version, "version", "v", false, "show version info")
 	pflag.Parse()
 }
@@ -30,14 +35,25 @@ func main() {
 	}
 
 	// initialize Server config
-	config := nirvana.NewDefaultConfig().Configure(nirvana.Port(httpPort))
+	config := nirvana.NewDefaultConfig().Configure(nirvana.Port(httpPort), func(c *nirvana.Config) error {
+		cf := &rest.Config{
+			Scheme:   "http",
+			Host:     fmt.Sprintf("%s:%d", cacheEndPoint, cachePort),
+			Executor: nil,
+		}
+
+		c.Set("client", cf)
+		return nil
+	})
 
 	// install APIs
 	apis.Install(config)
 
 	// create the server and server
 	server := nirvana.NewServer(config)
+
 	if err := server.Serve(); err != nil {
 		log.Errorf("server failed with error: %s", err.Error())
 	}
+
 }

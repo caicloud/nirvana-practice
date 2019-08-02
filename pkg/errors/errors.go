@@ -34,7 +34,9 @@ var (
 var (
 	ErrorUnknown = errors.InternalServerError.Build(
 		componentPrefix+"Unknown",
-		"unknown error: ${reason}",
+		"unknown error:ll" +
+			"" +
+			" ${reason}",
 	)
 	ErrorInternal = errors.InternalServerError.Build(
 		componentPrefix+"Internal",
