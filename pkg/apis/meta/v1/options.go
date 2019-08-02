@@ -7,3 +7,4 @@ type ListOptions struct {
 	SortBy       string `source:"Query,sortBy"`
 	ReverseOrder bool   `source:"Query,reverseOrder"`
 }
+
