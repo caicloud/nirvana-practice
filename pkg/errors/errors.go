@@ -1,6 +1,10 @@
 package errors
 
-import "github.com/caicloud/nirvana/errors"
+import (
+	"github.com/caicloud/nirvana/errors"
+	"github.com/caicloud/nirvana/service"
+	"reflect"
+)
 
 const (
 	componentPrefix = "practice:"
@@ -47,3 +51,8 @@ var (
 		"requested feature is not implemented",
 	)
 )
+
+func IsNirvanaError(err error) bool {
+	 _, ok := reflect.ValueOf(err).Interface().(service.Error)
+	return ok
+}

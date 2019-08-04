@@ -19,7 +19,10 @@ func GetProduct(ctx context.Context, name string) (*api.Product, error) {
 	}
 	prod, err := client.QueryRow(name)
 	if err != nil {
-		log.Infoln(err)
+		log.Errorln(err)
+		if errors.IsNirvanaError(err) {
+			return nil, err
+		}
 		return nil, errors.ErrorInternal.Error(err.Error())
 	}
 	return prod, nil
@@ -33,6 +36,9 @@ func CreateProduct(ctx context.Context, product *api.Product) error {
 	err := middlewares.GetCacheClient(ctx).Create(product)
 	if err != nil {
 		log.Infoln(err)
+		if errors.IsNirvanaError(err) {
+			return err
+		}
 		return errors.ErrorInternal.Error(err.Error())
 	}
 	return nil
@@ -62,6 +68,9 @@ func DeleteProduct(ctx context.Context, name string) error {
 	err := middlewares.GetCacheClient(ctx).Delete(name)
 	if err != nil {
 		log.Infoln(err)
+		if errors.IsNirvanaError(err) {
+			return err
+		}
 		return errors.ErrorInternal.Error(err.Error())
 	}
 
@@ -69,14 +78,16 @@ func DeleteProduct(ctx context.Context, name string) error {
 }
 
 // ListProducts returns products list and it's count is limited by options' limit field
-func ListProducts(ctx context.Context, options *v1.ListOptions) (*api.ProductsList, error) {
-	if options == nil || options.Limit < 0 {
+func ListProducts(ctx context.Context, options *v1.ListOptions) (*api.ProductsList, error) {if options == nil || options.Limit < 0 {
 		return nil, errors.ErrorInvalidParameter.Error("options Or options.Limit")
 	}
 
 	list, err := middlewares.GetCacheClient(ctx).Query(options.Limit)
 	if err != nil {
 		log.Infoln(err)
+		if errors.IsNirvanaError(err) {
+			return nil, err
+		}
 		return nil, errors.ErrorInternal.Error(err.Error())
 	}
 

@@ -103,7 +103,7 @@ func ListProducts (ctx context.Context, limit int) ([]*api.Product, error) {
 		cache = middlewares.GetCache(ctx)
 	)
 
-	if limit < 0 {
+	if limit <= 0 {
 		return nil, errors.ErrorInvalidParameter.Error("limit")
 	}
 
