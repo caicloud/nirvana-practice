@@ -2,54 +2,11 @@ package handlers
 
 import (
 	"context"
+
 	"github.com/caicloud/nirvana-practice/pkg/apis/middlewares"
 	api "github.com/caicloud/nirvana-practice/pkg/apis/v1alpha1"
 	"github.com/caicloud/nirvana-practice/pkg/errors"
 )
-
-
-//// init will insert a record into handlers
-//func init() {
-//	var (
-//		price = float64(100)
-//		sold = false
-//		uid = "010"
-//		name = "football"
-//		category = "sport"
-//		alias = "ball"
-//		label = map[string]string{
-//			"star": "f",
-//		}
-//		annotations = map[string]string{
-//			"dailySale": "300",
-//		}
-//		createTimestamp = time.Now()
-//		description = "every football lover likes it"
-//	)
-//
-//	memory = new(Memory)
-//
-//	_ = memory.Insert(
-//		&api.Product{
-//			Spec: &api.ProductSpec{
-//				Category: category,
-//				Price: &price ,
-//			},
-//			Status:&api.ProductStatus{
-//				Sold:          &sold,
-//				SoldTimestamp: nil,
-//			},
-//			Metadata: v1.Metadata{
-//				UID:               uid,
-//				Name:              name,
-//				Alias:             alias,
-//				Labels:            label,
-//				Annotations:       annotations,
-//				Description:       description,
-//				CreationTimestamp: &createTimestamp,
-//			}})
-//}
-
 
 // CreateProduct returns error if the product's key existed
 func CreateProduct(ctx context.Context, prod *api.Product) error {

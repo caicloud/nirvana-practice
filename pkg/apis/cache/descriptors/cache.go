@@ -1,10 +1,11 @@
 package descriptors
 
 import (
-	"github.com/caicloud/nirvana-practice/pkg/apis/cache/handlers"
-	"github.com/caicloud/nirvana-practice/pkg/apis/v1alpha1"
 	"github.com/caicloud/nirvana/definition"
 	"github.com/caicloud/nirvana/operators/validator"
+
+	"github.com/caicloud/nirvana-practice/pkg/apis/cache/handlers"
+	"github.com/caicloud/nirvana-practice/pkg/apis/v1alpha1"
 )
 
 // CacheDescriptor builds and returns a Descriptor for all Product APIs.

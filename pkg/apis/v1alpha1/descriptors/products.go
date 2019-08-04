@@ -1,11 +1,12 @@
 package descriptors
 
 import (
-	"github.com/caicloud/nirvana-practice/pkg/apis/v1alpha1"
 	"github.com/caicloud/nirvana/definition"
 	"github.com/caicloud/nirvana/operators/validator"
 
+
 	meta "github.com/caicloud/nirvana-practice/pkg/apis/meta/v1"
+	"github.com/caicloud/nirvana-practice/pkg/apis/v1alpha1"
 	"github.com/caicloud/nirvana-practice/pkg/apis/v1alpha1/handlers"
 )
 
