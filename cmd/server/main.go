@@ -22,8 +22,8 @@ var (
 
 func init() {
 	pflag.Uint16VarP(&httpPort, "port", "p", 8080, "the HTTP port used by the server")
-	pflag.StringVarP(&cacheEndPoint, "cache-endpoint", "cep", "127.0.0.1", "cache client endpoint")
-	pflag.Uint16VarP(&cachePort, "cache-port", "cp", 8081, "cache port")
+	pflag.StringVarP(&cacheEndPoint, "cache-endpoint", "", "127.0.0.1", "cache client endpoint")
+	pflag.Uint16VarP(&cachePort, "cache-port", "", 8081, "cache port")
 	pflag.BoolVarP(&version, "version", "v", false, "show version info")
 	pflag.Parse()
 }
@@ -35,19 +35,16 @@ func main() {
 	}
 
 	// initialize Server config
-	config := nirvana.NewDefaultConfig().Configure(nirvana.Port(httpPort), func(c *nirvana.Config) error {
-		cf := &rest.Config{
-			Scheme:   "http",
-			Host:     fmt.Sprintf("%s:%d", cacheEndPoint, cachePort),
-			Executor: nil,
-		}
+	config := nirvana.NewDefaultConfig().Configure(nirvana.Port(httpPort))
 
-		c.Set("client", cf)
-		return nil
-	})
+	cacheConf := &rest.Config{
+		Scheme:   "http",
+		Host:     fmt.Sprintf("%s:%d", cacheEndPoint, cachePort),
+		Executor: nil,
+	}
 
 	// install APIs
-	apis.Install(config)
+	apis.Install(config, cacheConf)
 
 	// create the server and server
 	server := nirvana.NewServer(config)

@@ -38,7 +38,14 @@ func CacheDescriptor() definition.Descriptor {
 						Method: definition.Get,
 						Function: handlers.GetProduct,
 						Parameters: []definition.Parameter {
-							definition.QueryParameterFor("name", "get the production by the name"),
+							definition.Parameter{
+								Source:      definition.Path,
+								Name:        "product",
+								Operators:   []definition.Operator{
+									validator.String(""),
+								},
+								Description: "name of product",
+							},
 						},
 						Results: definition.DataErrorResults("detail of the product"),
 						Description: "get one record of production",
@@ -88,7 +95,14 @@ func CacheDescriptor() definition.Descriptor {
 						Method: definition.Delete,
 						Function: handlers.DeleteProduct,
 						Parameters: []definition.Parameter {
-							definition.QueryParameterFor("product", "the name of deleted product"),
+							definition.Parameter{
+								Source:      definition.Path,
+								Name:        "product",
+								Operators:   []definition.Operator{
+									validator.String(""),
+								},
+								Description: "name of product",
+							},
 						},
 						Results: []definition.Result {
 							definition.ErrorResult(),

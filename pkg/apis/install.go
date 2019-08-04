@@ -15,7 +15,7 @@ import (
 )
 
 // Install configures the given Nirvana Config object with the API Descriptor.
-func Install(config *nirvana.Config) {
+func Install(config *nirvana.Config, cacheConfig *rest.Config) {
 	config.Configure(
 		reqlog.Default(),
 		nirvana.Descriptor(
@@ -23,12 +23,11 @@ func Install(config *nirvana.Config) {
 				Path:        "/",
 				Middlewares: []definition.Middleware{
 					func(ctx context.Context, chain definition.Chain) error {
-						cf := config.Config("client").(*rest.Config)
-						client, err := rest.NewClient(cf)
+						client, err := rest.NewClient(cacheConfig)
 						if err != nil {
 							return err
 						}
-						cli := client2.CacheClient{Client: client}
+						cli := &client2.CacheClient{Client: client}
 						return chain.Continue(context.WithValue(ctx, "client", cli))
 					},
 				},
