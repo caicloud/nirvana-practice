@@ -3,6 +3,7 @@ package handlers
 import (
 	"context"
 
+	meta "github.com/caicloud/nirvana-practice/pkg/apis/meta/v1"
 	"github.com/caicloud/nirvana-practice/pkg/apis/middlewares"
 	api "github.com/caicloud/nirvana-practice/pkg/apis/v1alpha1"
 	"github.com/caicloud/nirvana-practice/pkg/errors"
@@ -52,19 +53,19 @@ func GetProduct (ctx context.Context, name string) (*api.Product, error) {
 
 
 // ListProducts returns product list
-func ListProducts (ctx context.Context, limit int) ([]*api.Product, error) {
+func ListProducts (ctx context.Context, options *meta.ListOptions) ([]*api.Product, error) {
 	var (
 		list []*api.Product
 		i = 0
-		min = limit
+		min = options.Limit
 		cache = middlewares.GetCache(ctx)
 	)
 
-	if limit <= 0 {
+	if min <= 0 {
 		return nil, errors.ErrorInvalidParameter.Error("limit")
 	}
 
-	if limit > len(cache.Products) {
+	if min > len(cache.Products) {
 		min = len(cache.Products)
 	}
 

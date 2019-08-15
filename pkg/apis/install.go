@@ -2,16 +2,18 @@ package apis
 
 import (
 	"context"
+	"sync"
+
 	"github.com/caicloud/nirvana"
+	"github.com/caicloud/nirvana/definition"
+	"github.com/caicloud/nirvana/plugins/reqlog"
+	"github.com/caicloud/nirvana/rest"
+
 	"github.com/caicloud/nirvana-practice/pkg/apis/cache"
 	descriptors2 "github.com/caicloud/nirvana-practice/pkg/apis/cache/descriptors"
 	"github.com/caicloud/nirvana-practice/pkg/apis/v1alpha1"
 	"github.com/caicloud/nirvana-practice/pkg/apis/v1alpha1/descriptors"
 	client2 "github.com/caicloud/nirvana-practice/pkg/client"
-	"github.com/caicloud/nirvana/definition"
-	"github.com/caicloud/nirvana/plugins/reqlog"
-	"github.com/caicloud/nirvana/rest"
-	"sync"
 )
 
 // Install configures the given Nirvana Config object with the API Descriptor.
@@ -27,7 +29,7 @@ func Install(config *nirvana.Config, cacheConfig *rest.Config) {
 						if err != nil {
 							return err
 						}
-						cli := &client2.CacheClient{Client: client}
+						cli := client2.NewCacheClient(client)
 						return chain.Continue(context.WithValue(ctx, "client", cli))
 					},
 				},

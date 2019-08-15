@@ -5,6 +5,7 @@ import (
 	"github.com/caicloud/nirvana/operators/validator"
 
 	"github.com/caicloud/nirvana-practice/pkg/apis/cache/handlers"
+	meta "github.com/caicloud/nirvana-practice/pkg/apis/meta/v1"
 	"github.com/caicloud/nirvana-practice/pkg/apis/v1alpha1"
 )
 
@@ -18,11 +19,11 @@ func CacheDescriptor() definition.Descriptor {
 				Function: handlers.ListProducts,
 				Parameters: []definition.Parameter{
 					{
-						Source:      definition.Query,
-						Name:        "limit",
+						Source:      definition.Auto,
+						Name:        "options",
 						Description: "generic list limit",
 						Operators:   []definition.Operator{
-							validator.Int(""),
+							validator.Struct(&meta.ListOptions{}),
 						},
 					},
 				},
@@ -39,14 +40,7 @@ func CacheDescriptor() definition.Descriptor {
 						Method: definition.Get,
 						Function: handlers.GetProduct,
 						Parameters: []definition.Parameter {
-							definition.Parameter{
-								Source:      definition.Path,
-								Name:        "product",
-								Operators:   []definition.Operator{
-									validator.String(""),
-								},
-								Description: "name of product",
-							},
+							definition.PathParameterFor("product", "name of product"),
 						},
 						Results: definition.DataErrorResults("detail of the product"),
 						Description: "get one record of production",
@@ -78,14 +72,7 @@ func CacheDescriptor() definition.Descriptor {
 								},
 								Description: "the update data of product",
 							},
-							{
-								Source: definition.Path,
-								Name: "product",
-								Operators: []definition.Operator {
-									validator.String(""),
-								},
-								Description: "oldName of the product, because the update operation may change the name",
-							},
+							definition.PathParameterFor("product", "oldName of the product, because the update operation may change the name"),
 						},
 						Results: []definition.Result{
 							definition.ErrorResult(),
@@ -96,14 +83,7 @@ func CacheDescriptor() definition.Descriptor {
 						Method: definition.Delete,
 						Function: handlers.DeleteProduct,
 						Parameters: []definition.Parameter {
-							definition.Parameter{
-								Source:      definition.Path,
-								Name:        "product",
-								Operators:   []definition.Operator{
-									validator.String(""),
-								},
-								Description: "name of product",
-							},
+							definition.PathParameterFor("product", "name of product"),
 						},
 						Results: []definition.Result {
 							definition.ErrorResult(),

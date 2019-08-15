@@ -1,9 +1,10 @@
 package errors
 
 import (
+	"reflect"
+
 	"github.com/caicloud/nirvana/errors"
 	"github.com/caicloud/nirvana/service"
-	"reflect"
 )
 
 const (

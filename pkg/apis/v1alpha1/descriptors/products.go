@@ -43,8 +43,8 @@ func ProductDescriptor() definition.Descriptor {
 						Parameters: []definition.Parameter{
 							definition.PathParameterFor("product", "name of the product to get"),
 						},
-						Results:     definition.DataErrorResults("the get result (or error)"),
-						Description: "get product",
+						Results:     definition.DataErrorResults("product details"),
+						Description: "product details",
 					},
 					{
 						Method: definition.Create,
@@ -68,14 +68,7 @@ func ProductDescriptor() definition.Descriptor {
 						Method: definition.Update,
 						Function: handlers.UpdateProduct,
 						Parameters: []definition.Parameter {
-							definition.Parameter{
-								Source:      definition.Path,
-								Name:        "product",
-								Operators:   []definition.Operator{
-									validator.String(""),
-								},
-								Description: "name of being updated production",
-							},
+							definition.PathParameterFor("product", "name of being updated production"),
 							definition.Parameter{
 								Source:      definition.Body,
 								Operators:   []definition.Operator{
@@ -93,14 +86,7 @@ func ProductDescriptor() definition.Descriptor {
 						Method: definition.Delete,
 						Function: handlers.DeleteProduct,
 						Parameters: []definition.Parameter {
-							definition.Parameter{
-								Source:      definition.Path,
-								Name:        "product",
-								Operators:   []definition.Operator{
-									validator.String(""),
-								},
-								Description: "name of being deleted product",
-							},
+							definition.PathParameterFor("product", "name of being deleted product"),
 						},
 						Results: []definition.Result {
 							definition.ErrorResult(),

@@ -78,11 +78,12 @@ func DeleteProduct(ctx context.Context, name string) error {
 }
 
 // ListProducts returns products list and it's count is limited by options' limit field
-func ListProducts(ctx context.Context, options *v1.ListOptions) (*api.ProductsList, error) {if options == nil || options.Limit < 0 {
+func ListProducts(ctx context.Context, options *v1.ListOptions) (*api.ProductsList, error) {
+	if options == nil || options.Limit < 0 {
 		return nil, errors.ErrorInvalidParameter.Error("options Or options.Limit")
 	}
 
-	list, err := middlewares.GetCacheClient(ctx).Query(options.Limit)
+	list, err := middlewares.GetCacheClient(ctx).Query(options)
 	if err != nil {
 		log.Infoln(err)
 		if errors.IsNirvanaError(err) {

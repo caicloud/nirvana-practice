@@ -8,18 +8,31 @@ import (
 
 	"github.com/caicloud/nirvana/rest"
 
+	meta "github.com/caicloud/nirvana-practice/pkg/apis/meta/v1"
 	"github.com/caicloud/nirvana-practice/pkg/apis/v1alpha1"
 	"github.com/caicloud/nirvana-practice/pkg/errors"
 )
 
 // CacheClient client of cache server
-type CacheClient struct {
+type CacheClient interface {
+	QueryRow(name string) (*v1alpha1.Product, error)
+	Query(options *meta.ListOptions) ([]*v1alpha1.Product, error)
+	Create(product *v1alpha1.Product) error
+	Update(name string, product *v1alpha1.Product) error
+	Delete (name string) error
+}
+
+type cacheClient struct {
 	*rest.Client
+}
+
+func NewCacheClient(client *rest.Client) CacheClient {
+	return &cacheClient{Client: client}
 }
 
 // QueryRow returns a product by name
 // this can only return one record, when wanting to returns multi-record, to use Query
-func (cc *CacheClient) QueryRow(name string) (*v1alpha1.Product, error) {
+func (cc *cacheClient) QueryRow(name string) (*v1alpha1.Product, error) {
 	if name == "" {
 		return nil, errors.ErrorInvalidParameter.Error("name")
 	}
@@ -38,8 +51,8 @@ func (cc *CacheClient) QueryRow(name string) (*v1alpha1.Product, error) {
 }
 
 // Query returns multi-record, quantity is ${limit}
-func (cc *CacheClient) Query (limit int) ([]*v1alpha1.Product, error) {
-	if limit < 0 {
+func (cc *cacheClient) Query (options *meta.ListOptions) ([]*v1alpha1.Product, error) {
+	if options == nil || options.Limit < 0 {
 		return nil, errors.ErrorInvalidParameter.Error("limit")
 	}
 
@@ -47,14 +60,14 @@ func (cc *CacheClient) Query (limit int) ([]*v1alpha1.Product, error) {
 		productList []*v1alpha1.Product
 	)
 
-	if err := cc.Client.Request(http.MethodGet, http.StatusOK, "/api/cache/products").Query("limit", limit).Data(&productList).Do(context.Background()); err != nil {
+	if err := cc.Client.Request(http.MethodGet, http.StatusOK, "/api/cache/products").Query("limit", options.Limit).Data(&productList).Do(context.Background()); err != nil {
 		return nil, err
 	}
 	return productList, nil
 }
 
 // Create create one record
-func (cc *CacheClient) Create(product *v1alpha1.Product) error {
+func (cc *cacheClient) Create(product *v1alpha1.Product) error {
 	if product == nil {
 		return errors.ErrorInvalidParameter.Error("product")
 	}
@@ -63,7 +76,7 @@ func (cc *CacheClient) Create(product *v1alpha1.Product) error {
 }
 
 // Update update one record
-func (cc *CacheClient) Update(name string, product *v1alpha1.Product) error {
+func (cc *cacheClient) Update(name string, product *v1alpha1.Product) error {
 	if name == "" || product == nil {
 		return errors.ErrorInvalidParameter.Error("name or product")
 	}
@@ -72,7 +85,7 @@ func (cc *CacheClient) Update(name string, product *v1alpha1.Product) error {
 }
 
 // Delete one record
-func (cc *CacheClient) Delete (name string) error {
+func (cc *cacheClient) Delete (name string) error {
 	if name == "" {
 		return errors.ErrorInvalidParameter.Error("name")
 	}

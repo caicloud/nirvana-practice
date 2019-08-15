@@ -14,6 +14,6 @@ func GetCache(ctx context.Context) *cache.Cache {
 }
 
 // GetCacheClient returns cache client
-func GetCacheClient(ctx context.Context) *client.CacheClient {
-	return ctx.Value("client").(*client.CacheClient)
+func GetCacheClient(ctx context.Context) client.CacheClient {
+	return ctx.Value("client").(client.CacheClient)
 }
