@@ -1,10 +1,9 @@
-# github.com/caicloud/nirvana v0.2.3
+# github.com/caicloud/nirvana v0.2.4
 github.com/caicloud/nirvana
 github.com/caicloud/nirvana/definition
 github.com/caicloud/nirvana/errors
 github.com/caicloud/nirvana/log
 github.com/caicloud/nirvana/operators/validator
-github.com/caicloud/nirvana/plugins/reqlog
 github.com/caicloud/nirvana/service
 github.com/caicloud/nirvana/service/router
 github.com/caicloud/nirvana/utils/api
