@@ -4,8 +4,8 @@ package apis
 
 import (
 	v1alpha1 "github.com/caicloud/nirvana-practice/pkg/apis/v1alpha1/descriptors"
+	"github.com/caicloud/nirvana-practice/pkg/middleware"
 
-	middleware "github.com/caicloud/go-common/nirvana/middleware"
 	def "github.com/caicloud/nirvana/definition"
 	"github.com/caicloud/nirvana/log"
 )
