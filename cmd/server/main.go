@@ -6,7 +6,6 @@ import (
 
 	"github.com/caicloud/nirvana"
 	"github.com/caicloud/nirvana/log"
-	"github.com/caicloud/nirvana/plugins/reqlog"
 	"github.com/spf13/pflag"
 
 	"github.com/caicloud/nirvana-practice/pkg/apis"
@@ -33,7 +32,6 @@ func main() {
 	// initialize Server config
 	config := nirvana.NewDefaultConfig().Configure(
 		nirvana.Port(httpPort),
-		reqlog.Default(),
 		nirvana.Descriptor(apis.Descriptor()),
 	)
 

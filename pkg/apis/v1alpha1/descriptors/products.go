@@ -5,7 +5,7 @@ import (
 	"github.com/caicloud/nirvana/operators/validator"
 
 	meta "github.com/caicloud/nirvana-practice/pkg/apis/meta/v1"
-	"github.com/caicloud/nirvana-practice/pkg/apis/v1alpha1/handlers"
+	"github.com/caicloud/nirvana-practice/pkg/handlers"
 )
 
 func init() {

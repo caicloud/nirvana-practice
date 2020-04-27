@@ -15,8 +15,10 @@ func Descriptor() definition.Descriptor {
 	return definition.Descriptor{
 		Description: "v1alpha1 API",
 		Path:        "/v1alpha1",
-		Consumes:    []string{definition.MIMEJSON},
-		Produces:    []string{definition.MIMEJSON},
-		Children:    descriptors,
+		// Add other content types exclude JSON for consume and produce if necessary,
+		// like text, octet-stream etc.
+		// Consumes: []string{definition.MIMEOctetStream},
+		// Produces: []string{definition.MIMEText},
+		Children: descriptors,
 	}
 }
