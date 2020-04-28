@@ -1,0 +1,18 @@
+# This file describes your project. It's used to generate api docs and
+# clients. All fields in this file won't affect nirvana configurations.
+
+project: nirvana-practice-server
+description: This is a practice project which using Nirvana API framework
+schemes:
+- http
+hosts:
+- localhost:8080
+contacts:
+- name: Owl
+  email: owl@caicloud.io
+  description: Maintainer this project
+versions:
+- name: v1alpha1
+  description: The v1alpha1 version of this project
+  rules:
+  - prefix: /api/v1alpha1/
