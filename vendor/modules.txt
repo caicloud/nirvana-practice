@@ -1,0 +1,18 @@
+# github.com/caicloud/nirvana v0.2.4
+github.com/caicloud/nirvana
+github.com/caicloud/nirvana/definition
+github.com/caicloud/nirvana/errors
+github.com/caicloud/nirvana/log
+github.com/caicloud/nirvana/operators/validator
+github.com/caicloud/nirvana/service
+github.com/caicloud/nirvana/service/router
+github.com/caicloud/nirvana/utils/api
+# github.com/go-playground/locales v0.12.1
+github.com/go-playground/locales
+github.com/go-playground/locales/currency
+# github.com/go-playground/universal-translator v0.16.0
+github.com/go-playground/universal-translator
+# github.com/spf13/pflag v1.0.5
+github.com/spf13/pflag
+# gopkg.in/go-playground/validator.v9 v9.17.1
+gopkg.in/go-playground/validator.v9
