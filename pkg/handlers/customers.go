@@ -3,7 +3,7 @@ package handlers
 import (
 	"context"
 
-	v1 "github.com/caicloud/nirvana-practice/pkg/apis/meta/v1"
+	api_metav1 "github.com/caicloud/nirvana-practice/pkg/apis/meta/v1"
 	api "github.com/caicloud/nirvana-practice/pkg/apis/v1alpha1"
 	"github.com/caicloud/nirvana-practice/pkg/errors"
 )
@@ -12,7 +12,7 @@ func CreateCustomer(ctx context.Context, customer *api.Customer) (*api.Customer,
 	return nil, errors.ErrorNotImplemented.Error()
 }
 
-func ListCustomers(ctx context.Context, options *v1.ListOptions) (*api.CustomersList, error) {
+func ListCustomers(ctx context.Context, options *api_metav1.ListOptions) (*api.CustomersList, error) {
 	return nil, errors.ErrorNotImplemented.Error()
 }
 

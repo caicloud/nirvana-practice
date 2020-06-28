@@ -3,7 +3,7 @@ package handlers
 import (
 	"context"
 
-	v1 "github.com/caicloud/nirvana-practice/pkg/apis/meta/v1"
+	api_metav1 "github.com/caicloud/nirvana-practice/pkg/apis/meta/v1"
 	api "github.com/caicloud/nirvana-practice/pkg/apis/v1alpha1"
 	"github.com/caicloud/nirvana-practice/pkg/errors"
 	product2 "github.com/caicloud/nirvana-practice/pkg/repository/product"
@@ -26,7 +26,7 @@ func (p *ProductHandler) Create(ctx context.Context, product *api.Product) (*api
 
 }
 
-func (p *ProductHandler) List(ctx context.Context, options *v1.ListOptions) (*api.ProductsList, error) {
+func (p *ProductHandler) List(ctx context.Context, options *api_metav1.ListOptions) (*api.ProductsList, error) {
 	productsSource := p.repo.GetAll(options.Start, options.Limit, options.SortBy, options.ReverseOrder)
 	data := &api.ProductsList{
 		Total: len(productsSource),
