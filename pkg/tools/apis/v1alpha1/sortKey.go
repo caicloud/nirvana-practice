@@ -1,8 +1,9 @@
-package sortKeys
+package v1alpha1
 
 import (
-	api "github.com/caicloud/nirvana-practice/pkg/apis/v1alpha1"
 	"sort"
+
+	api "github.com/caicloud/nirvana-practice/pkg/apis/v1alpha1"
 )
 
 type By func(p1, p2 *api.Product) bool
@@ -53,5 +54,4 @@ func SortByKey(products []*api.Product, key string, reverseOrder bool) {
 	default:
 		By(name).Sort(products)
 	}
-
 }

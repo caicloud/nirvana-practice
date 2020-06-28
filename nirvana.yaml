@@ -4,15 +4,15 @@
 project: nirvana-practice-server
 description: This is a practice project which using Nirvana API framework
 schemes:
-- http
+  - http
 hosts:
-- localhost:8080
+  - localhost:8080
 contacts:
-- name: Owl
-  email: owl@caicloud.io
-  description: Maintainer this project
+  - name: Owl
+    email: owl@caicloud.io
+    description: Maintainer this project
 versions:
-- name: v1alpha1
-  description: The v1alpha1 version of this project
-  rules:
-  - prefix: /api/v1alpha1/
+  - name: v1alpha1
+    description: The v1alpha1 version of this project
+    rules:
+      - prefix: /api/v1alpha1/

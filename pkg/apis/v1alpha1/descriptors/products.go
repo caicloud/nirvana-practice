@@ -1,17 +1,17 @@
 package descriptors
 
 import (
-	"github.com/caicloud/nirvana-practice/pkg/repository"
 	"github.com/caicloud/nirvana/definition"
 	"github.com/caicloud/nirvana/definition/method"
 	"github.com/caicloud/nirvana/operators/validator"
 
 	meta "github.com/caicloud/nirvana-practice/pkg/apis/meta/v1"
 	"github.com/caicloud/nirvana-practice/pkg/handlers"
+	product2 "github.com/caicloud/nirvana-practice/pkg/repository/product"
 )
 
 func init() {
-	productService := repository.NewProductService()
+	productService := product2.NewService()
 	productHandler = handlers.NewProductHandler(productService)
 	defaultContainer.Put(productHandler)
 	register(products...)
@@ -40,7 +40,7 @@ var products = []definition.Descriptor{
 var listProducts = definition.Definition{
 	Method:      definition.List,
 	Description: "list products",
-	Function:    defaultContainer.Get(productHandler, "ListProducts"),
+	Function:    defaultContainer.Get(productHandler, "List"),
 	Parameters: []definition.Parameter{
 		{
 			Source:      definition.Auto,
@@ -55,7 +55,7 @@ var listProducts = definition.Definition{
 var createProduct = definition.Definition{
 	Method:      definition.Create,
 	Description: "create product",
-	Function:    defaultContainer.Get(productHandler, "CreateProduct"),
+	Function:    defaultContainer.Get(productHandler, "Create"),
 	Parameters: []definition.Parameter{
 		definition.BodyParameterFor("JSON body to describe the new product"),
 	},
@@ -65,7 +65,7 @@ var createProduct = definition.Definition{
 var getProduct = definition.Definition{
 	Method:      definition.Get,
 	Description: "get product",
-	Function:    defaultContainer.Get(productHandler, "GetProduct"),
+	Function:    defaultContainer.Get(productHandler, "Get"),
 	Parameters: []definition.Parameter{
 		definition.PathParameterFor("product", "name of the product to get"),
 	},
@@ -75,7 +75,7 @@ var getProduct = definition.Definition{
 var updateProduct = definition.Definition{
 	Method:      definition.Update,
 	Description: "update product",
-	Function:    defaultContainer.Get(productHandler, "UpdateProduct"),
+	Function:    defaultContainer.Get(productHandler, "Update"),
 	Parameters: []definition.Parameter{
 		definition.PathParameterFor("product", "name of the product to update"),
 		definition.BodyParameterFor("JSON body to describe the new product"),
@@ -86,7 +86,7 @@ var updateProduct = definition.Definition{
 var deleteProduct = definition.Definition{
 	Method:      definition.Delete,
 	Description: "delete product",
-	Function:    defaultContainer.Get(productHandler, "DeleteProduct"),
+	Function:    defaultContainer.Get(productHandler, "Delete"),
 	Parameters: []definition.Parameter{
 		definition.PathParameterFor("product", "name of the product to delete"),
 	},

@@ -3,7 +3,7 @@ package handlers
 import (
 	"context"
 
-	"github.com/caicloud/nirvana-practice/pkg/apis/meta/v1"
+	v1 "github.com/caicloud/nirvana-practice/pkg/apis/meta/v1"
 	api "github.com/caicloud/nirvana-practice/pkg/apis/v1alpha1"
 	"github.com/caicloud/nirvana-practice/pkg/errors"
 )

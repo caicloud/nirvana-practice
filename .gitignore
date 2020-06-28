@@ -3,3 +3,6 @@ bin
 
 # Output file of unit test coverage
 coverage.out
+
+# GoLand config
+.idea
