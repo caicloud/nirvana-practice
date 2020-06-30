@@ -23,7 +23,7 @@ type Repository interface {
 
 type Service struct {
 	products map[string]*api.Product
-	lock     sync.RWMutex
+	sync.Mutex
 }
 
 func NewService() *Service {
@@ -64,20 +64,20 @@ func NewService() *Service {
 }
 
 func (p *Service) Add(product *api.Product) (*api.Product, error) {
-	if p.exist(product.Name) {
+	p.Lock()
+	defer p.Unlock()
+	if _, ok := p.products[product.Name]; ok {
 		return nil, errors.ErrorAlreadyExist.Error(product.Name)
 	}
 	uid := uuid.NewV4().String()
 	product.UID = uid
-	p.lock.Lock()
 	p.products[product.Name] = product
-	p.lock.Unlock()
 	return product, nil
 }
 
 func (p *Service) GetAll(start, limit int, orderKey string, reverseOrder bool) []*api.Product {
-	p.lock.RLock()
-	defer p.lock.RUnlock()
+	p.Lock()
+	defer p.Unlock()
 	products := make([]*api.Product, 0, len(p.products))
 	for _, v := range p.products {
 		products = append(products, v)
@@ -94,8 +94,8 @@ func (p *Service) GetAll(start, limit int, orderKey string, reverseOrder bool) [
 }
 
 func (p *Service) Get(name string) *api.Product {
-	p.lock.RLock()
-	defer p.lock.RUnlock()
+	p.Lock()
+	defer p.Unlock()
 	if product, ok := p.products[name]; ok {
 		return product
 	}
@@ -103,12 +103,12 @@ func (p *Service) Get(name string) *api.Product {
 }
 
 func (p *Service) Delete(name string) error {
-	if !p.exist(name) {
+	p.Lock()
+	defer p.Unlock()
+	if _, ok := p.products[name]; !ok {
 		return errors.ErrorNotFound.Error(name)
 	}
-	p.lock.Lock()
 	delete(p.products, name)
-	p.lock.Unlock()
 	return nil
 }
 
@@ -116,18 +116,11 @@ func (p *Service) Update(name string, product *api.Product) error {
 	if product.Name != name {
 		return errors.ErrorValidationFailed.Error(name)
 	}
-	if !p.exist(name) {
+	p.Lock()
+	defer p.Unlock()
+	if _, ok := p.products[name]; !ok {
 		return errors.ErrorNotFound.Error(name)
 	}
-	p.lock.Lock()
-	defer p.lock.Unlock()
 	p.products[name] = product
 	return nil
-}
-
-func (p *Service) exist(name string) bool {
-	p.lock.RLock()
-	defer p.lock.RUnlock()
-	_, ok := p.products[name]
-	return ok
 }
